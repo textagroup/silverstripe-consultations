@@ -38,4 +38,20 @@ class ConsultationSubmittedForm extends DataExtension {
 		return $fields;
 	}
 
+	/**
+	* Return a boolean false if a no show comment field has been set to yes
+	*
+	* @return Boolean
+	*/
+	public function getShowComment() {
+		$fields = $this->owner->Values();
+		foreach ($fields as $field) {
+			if (strpos($field->Name, 'EditableNoCommentShow') !== false) {
+				if ($field->Value == 'Yes') {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 }
