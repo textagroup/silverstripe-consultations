@@ -5,7 +5,8 @@
 class ConsultationSubmittedForm extends DataExtension {
 
 	private static $db = array(
-		'IsConsultationSubmission' => 'Boolean'
+		'IsConsultationSubmission' => 'Boolean',
+		'ModerationStatus' => "Enum('Checked, Unchecked, Blocked', 'Unchecked')"
 	);
 
 	public function onBeforeWrite() {
@@ -50,6 +51,12 @@ class ConsultationSubmittedForm extends DataExtension {
 				if ($field->Value == 'Yes') {
 					return false;
 				}
+			}
+		}
+		$config = SiteConfig::current_site_config(); 
+		if ($config->ModerateSubmissions) {
+			if ($this->owner->ModerationStatus != 'Checked') {
+				return false;
 			}
 		}
 		return true;
