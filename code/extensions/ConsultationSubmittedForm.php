@@ -59,6 +59,11 @@ class ConsultationSubmittedForm extends DataExtension {
 				return false;
 			}
 		}
+
+		if ($this->owner->ModerationStatus == 'Blocked') {
+			return false;
+		}
+
 		return true;
 	}
 }
